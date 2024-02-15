@@ -10,10 +10,9 @@ import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/met
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/metrics/models/metric_value_level.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/entity_type.dart';
 import 'package:dart_code_metrics/src/analyzers/lint_analyzer/models/report.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:source_span/source_span.dart';
 
-class _DeclarationMock extends Mock implements Declaration {}
+import 'custom_mock.dart';
 
 MetricValue<T> buildMetricValueStub<T extends num>({
   required String id,
@@ -67,10 +66,12 @@ Report buildReportStub({
     ),
   ];
 
+  final node = CustomMock() as AstNode;
+
   return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
-    declaration: _DeclarationMock(),
+    declaration: node,
     metrics: [...metrics, ...defaultMetricValues],
   );
 }
@@ -90,10 +91,12 @@ Report buildFunctionRecordStub({
     buildMetricValueStub<int>(id: 'maintainability-index', value: 100),
   ];
 
+  final node = CustomMock() as AstNode;
+
   return Report(
     location:
         location ?? SourceSpanBase(SourceLocation(0), SourceLocation(0), ''),
-    declaration: _DeclarationMock(),
+    declaration: node,
     metrics: [...metrics, ...defaultMetricValues],
   );
 }
